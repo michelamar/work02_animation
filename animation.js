@@ -3,6 +3,8 @@ var ctx = c.getContext("2d");
 
 var b1 = document.getElementById("clear");
 var b2 = document.getElementById("stop");
+var b3 = document.getElementById("enlarge");
+var b4 = document.getElementById("dvd");
 
 var requestID;
 
@@ -17,7 +19,7 @@ var stop = function(){
     window.cancelAnimationFrame(requestID);
 };
 
-var animate = function(){
+var circle_enlarge = function(){
     window.cancelAnimationFrame(requestID);
     var radius = 0
     var bigger = true;
@@ -36,13 +38,40 @@ var animate = function(){
 	}
 	if (radius <= 0 || radius >= c.height/2){
 	    bigger = !bigger;
+	}	requestID = window.requestAnimationFrame(draw);
+    };
+    draw();
+};
+
+var dvd_move = function(){
+    window.cancelAnimationFrame(requestID);
+    var xmove = 1;
+    var ymove = 1;
+    x = 0;
+    y = 100;
+    var draw = function(){
+	clear();
+	ctx.fillStyle = "lightsteelblue";
+	ctx.beginPath();
+	ctx.fillRect(x, y, 50, 30);
+	x = x + xmove;
+	y = y + ymove;
+	if (x <= 0 || x+50 >= c.width){
+	    xmove = xmove * -1;
+	    ctx.fillStyle = "magenta"
+	}
+	if (y <= 0 || y+30 >= c.height){
+	    ymove = ymove * -1;
+	    ctx.fillStyle = "lightsteelblue";
 	}
 	requestID = window.requestAnimationFrame(draw);
     };
     draw();
 };
+	
 
 
 b1.addEventListener("click", clear);
 b2.addEventListener("click", stop);
-c.addEventListener("click", animate);
+b3.addEventListener("click", circle_enlarge);
+b4.addEventListener("click", dvd_move);
